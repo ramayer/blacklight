@@ -33,7 +33,7 @@ def git_export repo, new_dir_name=nil, opts={}
   elsif opts[:tag]
     run "cd #{dir_name} && git checkout #{opts[:tag]}"
   end
-  FileUtils.rm_r "#{dir_name}/.git", :force=>true
+  # FileUtils.rm_r "#{dir_name}/.git", :force=>true
 end
 
 git_export 'git://github.com/projectblacklight/blacklight.git', 'vendor/plugins/blacklight', :tag=>tag
