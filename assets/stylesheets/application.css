@@ -89,7 +89,7 @@ th, td {border: 0;}
 /* Search Results */
 .document {padding: 0.5em 0 0 0; background-color: #fff; border-bottom: 1px dotted #ccc;}
 
-#documents {background-color: #eee; color: #333; width: 650px;}
+#documents {background-color: #eee; color: #333; width: 650px; clear:both}
 #documents .documentHeader {background-color: #fff; padding: 0px;}
 #documents .documentHeader .documentFunctions {text-align:right;}
 #documents .per_page {padding-right: 5px;}
