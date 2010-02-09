@@ -1,11 +1,26 @@
 <%# default partial to display solr document fields in catalog index view -%>
+<div>
+<div style="float:right; max-width:170px">
+  <% thumbnail_fields = document._source.keys.select{|x| x=~/img_url/} %>
+  <% thumbnail_fields.each{|key| %>
+    <%= (document._source[key]||[]).map{|img| "<img src='#{img}'/>"}.join(' ') %>
+  <% } %>
+</div>
 <dl class="defList">
   
   <% index_field_names.each do |solr_fname| -%>
     <% if document.get solr_fname %>
-        <dt><%= h index_field_labels[solr_fname]%></dt>
-        <dd><%= h document.get(solr_fname) %></dd>
+        <% nice_display_value = document.get(solr_fname) %>
+        <%
+            if solr_fname =~ /_dt$/ 
+                nice_display_value.gsub!('T'," ").gsub!(/:00(\.0*)?Z$/,"")
+            end
+        %>
+        <dt><%= h index_field_labels[solr_fname] || solr_fname %></dt>
+        <dd><%= h nice_display_value %></dd>
     <% end -%>
   <% end -%>
 
 </dl>
+ <div style="clear:both"></div>
+</div>
