@@ -10,6 +10,23 @@
     <link href="<%= url_for :controller=>'catalog',:action => 'opensearch', :format => 'xml', :only_path => false %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
     <%= render_js_includes %>
     <%= render_stylesheet_includes %>
+
+    <!-- openlayers -->
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <style type="text/css">
+        .olControlAttribution { bottom: 0px!important }
+        .olControlMousePosition {right: 350px!important; background: #fff; }
+        .olControlPermalink {bottom: 0px!important; right: 280px!important; background: #fff; }
+        #map {
+            height: 512px;
+            max-width: 1800px;
+        }
+        /* avoid pink tiles */
+        .olImageLoadError {
+            background-color: transparent !important;
+        }
+    </style>
+
     
   </head>
   <% if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>

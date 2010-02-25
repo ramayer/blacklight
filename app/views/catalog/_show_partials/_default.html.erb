@@ -14,5 +14,40 @@
       <% end -%>
     <% end -%>
   <% end -%>
+</dl>
+<hr>
+
+   <% document['yaml_display'].each{|val| %>
+       <pre style="font-size:14px"><%= h(val)%></pre><hr>
+   <% } if document['yaml_display'] %>
+
+
+<hr>
+<b> DEBUG:<br></b>
+<hr>
+<br>
+<dl class="defList">
+<% document._source.keys.sort.each{|solr_fname| %>
+<% next if solr_fname == "yaml_display" %>
+    <% 
+        disp_fname = document_show_field_labels[solr_fname] || solr_fname.
+            gsub(/_s$/,"").gsub("_"," ")
+            disp_fname = solr_fname
+    %>
+
+    <% if document[solr_fname] %>
+      <% if document[solr_fname].is_a?(Array) %>
+        <dt><%= disp_fname %></dt><dd>
+        <%= document[solr_fname].map{|val|
+           h(val)
+        }.join("<br>")%>
+        </dd>
+      <% else %>
+        <dt><%= disp_fname %></dt>
+        <dd><%= h document[solr_fname] %></dd>
+      <% end -%>
+    <% end -%>
+    <br>
+<% } %>
 
 </dl>

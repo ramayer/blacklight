@@ -26,7 +26,7 @@ module ApplicationHelper
   #end 
   #alias_method_chain :render_js_includes, :local
   def render_js_includes
-    javascript_include_tag 'jquery-1.3.1.min.js', 'blacklight', 'application', 'accordion', 'lightbox', :plugin=>:blacklight 
+    javascript_include_tag 'jquery-1.3.1.min.js', 'blacklight', 'application', 'accordion', 'lightbox', 'map', :plugin=>:blacklight 
   end
   
   # collection of items to be rendered in the @sidebar
@@ -63,7 +63,7 @@ module ApplicationHelper
     @document[Blacklight.config[:show][:heading]]
   end
   def render_document_heading
-    '<h1>' + document_heading + '</h1>'
+    '<h1>' + (document_heading || (h @document.inspect)) + '</h1>'
   end
   
   # Used in the show view for setting the main html document title

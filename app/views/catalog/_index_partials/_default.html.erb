@@ -3,7 +3,7 @@
 <div style="float:right; max-width:170px">
   <% thumbnail_fields = document._source.keys.select{|x| x=~/img_url/} %>
   <% thumbnail_fields.each{|key| %>
-    <%= (document._source[key]||[]).map{|img| "<img src='#{img}'/>"}.join(' ') %>
+    <%= (document._source[key]||[]).map{|img| "<img width='50' src='#{img}'/>"}.join(' ') %>
   <% } %>
 </div>
 <dl class="defList">
@@ -16,7 +16,7 @@
                 nice_display_value.gsub!('T'," ").gsub!(/:00(\.0*)?Z$/,"")
             end
         %>
-        <dt><%= h index_field_labels[solr_fname] || solr_fname %></dt>
+        <dt><nobr><%= h index_field_labels[solr_fname] || solr_fname %></nobr></dt>
         <dd><%= h nice_display_value %></dd>
     <% end -%>
   <% end -%>

@@ -2,7 +2,13 @@
 <div id="documents">
   
   <% # loop thru each doc -%>
+  <% lat_lon = [] %>
   <% @document_list.each_with_index do |document,counter| %>
+    <%
+        if document.get('lat_d')
+             lat_lon << [document.get('lat_d'),document.get('lon_d')]
+        end
+    %>
 
     <% # container for a single doc -%>
     <div class="document">
@@ -30,3 +36,64 @@
     
   <% end %>
 </div>
+
+
+
+    <div id="msg"></div>
+    <div id="tags">
+    </div>
+    <p id="shortdesc">
+    </p>
+    <div id="map" class="smallmap"></div>
+    <div id="docs">
+    </div>
+<script>
+  $(document).ready(function() {
+    init_map();
+
+    var featurecollection = {
+              "type": "FeatureCollection", 
+              "features": [
+                {"geometry": {
+                    "type": "GeometryCollection", 
+                    "geometries": [
+                        {
+                            "type": "LineString", 
+                            "coordinates": 
+                                [[11.0878902207, 45.1602390564], 
+                                [15.01953125, 48.1298828125]]
+                        },
+<%=
+ lat_lon.map{|x| %Q{
+                        {
+                            "type":"Point", 
+                            "coordinates":[#{x[1]},#{x[0]}]
+                        }
+  }}.join(",")
+%>
+                    ]
+                }, 
+                "type": "Feature", 
+                "properties": {}}
+              ]
+           };
+           var geojson_format = new OpenLayers.Format.GeoJSON({
+                    'internalProjection': new OpenLayers.Projection("EPSG:900913"),
+                    'externalProjection': new OpenLayers.Projection("EPSG:4326")
+           });
+   var styleMap = new OpenLayers.StyleMap(OpenLayers.Util.applyDefaults(
+        {fillColor: "red", fillOpacity: 1, strokeColor: "black"},
+        OpenLayers.Feature.Vector.style["default"]));
+
+           var vector_layer = new OpenLayers.Layer.Vector("Results",{styleMap: styleMap}); 
+           map.addLayer(vector_layer);
+           vector_layer.addFeatures(geojson_format.read(featurecollection));
+
+  <% if lat_lon.first %>
+   zoom_to(map,<%=lat_lon.first[0]%>,<%=lat_lon.first[1]%>);
+  <% end %>
+
+  });
+
+
+</script>
