@@ -51,3 +51,33 @@
 <% } %>
 
 </dl>
+
+
+
+<hr><hr>
+<b> Debug: </b>
+<hr>
+<br>
+<dl class="defList">
+<% document._source.keys.sort.each{|solr_fname| %>
+    <% 
+      disp_fname = solr_fname.sub(/_[a-z]+$/,"").gsub("_"," ")
+    %>
+
+    <% if document[solr_fname] %>
+      <% if document[solr_fname].is_a?(Array) %>
+        <dt><%= disp_fname %></dt><dd>
+        <%= document[solr_fname].map{|val|
+           h(val)
+        }.join("<br>")%>
+        </dd>
+      <% else %>
+        <dt><%= disp_fname %></dt>
+        <dd><%= h document[solr_fname] %></dd>
+      <% end -%>
+    <% end -%>
+    <br>
+<% } %>
+
+</dl>
+
